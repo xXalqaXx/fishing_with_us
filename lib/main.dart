@@ -21,11 +21,69 @@ class FishingWithUsApp extends StatelessWidget {
         useMaterial3: true,
         scaffoldBackgroundColor: const Color(0xFF05071A),
       ),
-      home: const FishingHomeScreen(),
+      home: const RootNavigation(),
     );
   }
 }
 
+/// Główny „kontener” z dolnym menu
+class RootNavigation extends StatefulWidget {
+  const RootNavigation({super.key});
+
+  @override
+  State<RootNavigation> createState() => _RootNavigationState();
+}
+
+class _RootNavigationState extends State<RootNavigation> {
+  int _currentIndex = 0;
+
+  // Tu definiujemy ekrany dla zakładek
+  final List<Widget> _pages = const [
+    FishingHomeScreen(),
+    FishingMapScreen(),
+    FishingCatchesScreen(),
+    FishingProfileScreen(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _pages[_currentIndex],
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _currentIndex,
+        onDestinationSelected: (int index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.home_outlined),
+            selectedIcon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.map_outlined),
+            selectedIcon: Icon(Icons.map),
+            label: 'Mapa',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.timeline_outlined),
+            selectedIcon: Icon(Icons.timeline),
+            label: 'Połowy',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.person_outline),
+            selectedIcon: Icon(Icons.person),
+            label: 'Profil',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Ekran startowy – to co już miałaś
 class FishingHomeScreen extends StatelessWidget {
   const FishingHomeScreen({super.key});
 
@@ -62,12 +120,67 @@ class FishingHomeScreen extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // TODO: tu później przejście do ekranu mapy
+                  // Na razie nic – mapa będzie w osobnej zakładce
                 },
                 child: const Text('Przejdź do mapy (placeholder)'),
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Placeholder – przyszła mapa łowisk
+class FishingMapScreen extends StatelessWidget {
+  const FishingMapScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Mapa łowisk')),
+      body: const Center(
+        child: Text(
+          'Tu będzie mapa (Google Maps)\n'
+          'z zaznaczonymi łowiskami 🎯',
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  }
+}
+
+/// Placeholder – lista połowów
+class FishingCatchesScreen extends StatelessWidget {
+  const FishingCatchesScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Twoje połowy')),
+      body: const Center(
+        child: Text(
+          'Tu będzie lista zapisanych połowów 🐟',
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  }
+}
+
+/// Placeholder – prosty profil
+class FishingProfileScreen extends StatelessWidget {
+  const FishingProfileScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Profil')),
+      body: const Center(
+        child: Text(
+          'Tu będzie prosty profil użytkownika 👤',
+          textAlign: TextAlign.center,
         ),
       ),
     );
